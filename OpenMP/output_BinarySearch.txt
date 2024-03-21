@@ -1,0 +1,3 @@
+Enter size of a list: 100
+key to search: 300
+Key not found

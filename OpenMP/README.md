@@ -1,6 +1,6 @@
 ## OpenMP
 
-Aquí se encuentra el desarrollo de la primera evaluación de Introducción a la Computación Paralela.
+Aquí se encuentra el desarrollo de la primera evaluación de Introducción a la Computación Paralela. Los dos codigos son metodos de ordenamiendo en que el BinarySort utiliza BubbleSort que consiste en iterar sobre la lista varias veces, comparando elementos adyacentes y realizando intercambios si están en el orden incorrecto. En cada iteración, el elemento más grande (o más pequeño, dependiendo del ordenamiento) "burbujea" hacia su posición final; Y el PostmanSort utiliza un metodo de ordenamiento llamado BucketSort en cual cosiste en seleccionar un número de "cubetas" (o "buckets") y distribuye los elementos de la lista en esas cubetas según cierto criterio. Luego, cada cubeta se ordena individualmente, y finalmente, se combinan las cubetas ordenadas para formar la lista ordenada completa.
 
 ### Contenido
 
@@ -9,6 +9,8 @@ Aqui estan los archivos de:
 - `BinarySearch.c` y `PostmanSort.c`: Archivo suministrado por el docente. Consiste en dos metodos de ordenamiendo de listas.
 - `OMP_BinarySearch.c` y `OMP_PostmanSort.c`: Archivo donde se encuentra las modificaciones pertinentes para la ejecucion en paralelo de las instrucciones de ordenamiento.
 - `Binary.sbatch` y `PostmanSort.c`: Archivo para correr automaticamente el código paralelizado en la supercomputadora de Guane. En este mismo documento, más abajo se explica cómo realizarlo.
+- `output_BinarySearch.txt` y `output_PostmanSort.txt`: Archivo de texto en donde se encuentran las salidas que tiene el código paralelizado. Estas salidas serían las que normalmente se verían en la pantalla o consola al interactuar con el usuario más los adicionales que se coloquen en el archivo '.sbatch'.
+- `x_BinarySearch` y `x_PostmanSort`: Archivo binario donde se encuentra compilado el codigo.
 
 ## Descripcion
 

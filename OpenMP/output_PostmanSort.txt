@@ -1,0 +1,1 @@
+/var/spool/slurm/d/job62240/slurm_script: line 9: 26267 Segmentation fault      ./x_PostmanSort
