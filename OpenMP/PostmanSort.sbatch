@@ -5,5 +5,5 @@
 #SBATCH --nodes=1   
 #SBATCH --cpus-per-task=4    
 
-gcc -fopenmp OMP_PostmanSort -o x_PostmanSort   
+gcc -fopenmp OMP_PostmanSort.c -o x_PostmanSort   
 ./x_PostmanSort
