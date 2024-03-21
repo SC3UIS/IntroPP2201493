@@ -15,8 +15,8 @@ void main()
 {
     int t1, t2, k, t, n = 1;
  
-    printf("Enter size of array :");
-    scanf("%d", &count);
+    printf("Enter size of array: 50"); //change dinamic input to a static input
+    count = 50;
     #pragma omp parallel shared (count, array, array1, t, maxdigits, c) private(i)
     {
         //set in all input data in random way

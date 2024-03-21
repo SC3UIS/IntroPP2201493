@@ -17,8 +17,9 @@ int main()
     int list[25];
  
     printf("Enter size of a list: ");
-    scanf("%d", &size);
-    printf("Enter elements\n");
+    //change manual input to static input
+    size = 50;
+    printf("%d", size);
     // Add the parallel sentence
     #pragma omp parallel shared (list, size) private(i)
     {
@@ -29,13 +30,13 @@ int main()
         */ 
         #pragma omp parallel for
         for(i=0; i < size; i++){
-            list[i] = randNumber(-100,100);
+            list[i] = randNumber(0,1000);
         }
     }
     bubble_sort(list, size);
     printf("\n");
-    printf("Enter key to search\n");
-    scanf("%d", &key);
+    printf("key to search: 300\n"); //change dinamic input to static
+    key = 300;
     binary_search(list, 0, size, key); 
 }
  
