@@ -17,7 +17,7 @@ int main()
  
     printf("Enter size of a list: ");
     //change manual input to static input
-    size = 50;
+    size = 100;
     int list[size]; //correction in the length of the list
     printf("%d", size);
     // Add the parallel sentence
