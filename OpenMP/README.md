@@ -2,7 +2,7 @@
 
 Aquí se encuentra el desarrollo de la primera evaluación de Introducción a la Computación Paralela.
 
-#### Contenido
+### Contenido
 
 Aqui estan los archivos de:
 
@@ -10,7 +10,7 @@ Aqui estan los archivos de:
 - `OMP_BinarySearch.c` y `OMP_PostmanSort.c`: Archivo donde se encuentra las modificaciones pertinentes para la ejecucion en paralelo de las instrucciones de ordenamiento.
 - `Binary.sbatch` y `PostmanSort.c`: Archivo para correr automaticamente el código paralelizado en la supercomputadora de Guane. En este mismo documento, más abajo se explica cómo realizarlo.
 
-### Descripcion
+## Descripcion
 
 Se parte de una implementación que se ejecuta en un solo hilo, para transformarla en una que se ejecute en paralelo. Se utilizó la librería OpenMP para este propósito, específicamente así:
 ```c
@@ -39,7 +39,7 @@ Para compilar se utilizó el compilador *gcc 9.2.0*, de la siguiente manera:
 solución en paralelo, indicando que utilice *OpenMP*.
 2. `./x_Binary`: Para ejecutar el binario que creamos en el primer paso.
 
-#### Implementación en *GUANE*
+### Implementación en *GUANE*
 
 Una idea adicional a la paralelización es poderla implementar en la supercomputadora *GUANE*. Para esto es necesario subir dos archivos *(`OMP_BinarySearch.c`, `Binary.sbatch`)* en nuestra sesión de usuarios, ya sea utilizando SSH.
 
