@@ -14,11 +14,11 @@ int randNumber(int, int);
 int main()
 {
     int key, size, i;
-    int list[25];
  
     printf("Enter size of a list: ");
     //change manual input to static input
     size = 50;
+    int list[size]; //correction in the length of the list
     printf("%d", size);
     // Add the parallel sentence
     #pragma omp parallel shared (list, size) private(i)
