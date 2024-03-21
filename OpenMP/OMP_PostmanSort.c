@@ -11,12 +11,11 @@ int randNumber(int, int);  //add declaration function
 int array[100], array1[100];
 int i, j, temp, max, count, maxdigits = 0, c = 0;
  
-void main()
-{
+void main(){
     int t1, t2, k, t, n = 1;
  
-    printf("Enter size of array: 50"); //change dinamic input to a static input
-    count = 50;
+    printf("Enter size of array: 100"); //change dinamic input to a static input
+    count = 100;
     #pragma omp parallel shared (count, array, array1, t, maxdigits, c) private(i)
     {
         //set in all input data in random way
@@ -63,7 +62,7 @@ void main()
         #pragma omp parallel shared (count, t1, array, n) private(i, j)
         {
             #pragma omp parallel for //parallel the sorting function
-            for (i = 0; i < count;){
+            for (i = 0; i < count;i++){
                 t1 = array[i] / n;
                 for (j = i + 1; t1 == (array[j] / n); j++);
                     arrange(i, j);
@@ -79,20 +78,16 @@ void main()
 }
  
 /* Function to arrange the of sequence having same base */
-void arrange(int k,int n){
-    #pragma omp parallel shared (k, n, array, array1, n, temp) private(i, j)
-    {
-        #pragma omp parallel for 
-        for (i = k; i < n - 1; i++){
-            for (j = i + 1; j < n; j++){
-                if (array1[i] > array1[j]){
-                    temp = array1[i];
-                    array1[i] = array1[j];
-                    array1[j] = temp;
-                    temp = (array[i] % 10);
-                    array[i] = (array[j] % 10);
-                    array[j] = temp;
-                }
+void arrange(int k,int n){ 
+    for (i = k; i < n - 1; i++){
+        for (j = i + 1; j < n; j++){
+            if (array1[i] > array1[j]){
+                temp = array1[i];
+                array1[i] = array1[j];
+                array1[j] = temp;
+                temp = (array[i] % 10);
+                array[i] = (array[j] % 10);
+                array[j] = temp;
             }
         }
     }
