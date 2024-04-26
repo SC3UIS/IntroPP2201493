@@ -6,6 +6,8 @@ void arrangeItems(int [], int [], int, int);
 int len;
 
 int main(int argc, char *argv[]){
+    setenv("OMPI_MCA_btl", "^openib", 1);
+    setenv("OMPI_MCA_orte_base_help_aggregate", "0", 1);
     int rank, size, start_time, end_time, total_time;
     int i, j, c, t, k, n, max, maxd=0, temp;
 
@@ -14,7 +16,7 @@ int main(int argc, char *argv[]){
     MPI_Comm_size(MPI_COMM_WORLD, &size);
 
     // Size of the array to sort...
-    len = 1000000;
+    len = 100000;
 
     MPI_Bcast(&len, 1, MPI_INT, 0, MPI_COMM_WORLD);
 

@@ -45,7 +45,7 @@ int main(int argc, char *argv[]){
     if (rank == 0){
         end = clock();
         cpu_time_used = ((double) (end - start)) / CLOCKS_PER_SEC;
-        printf("Tiempo tomado para ordenar la lista: %lf seconds\n", cpu_time_used);
+        printf("Time to sort the list: %lf seconds\n", cpu_time_used);
     }
     printf("Enter key to search: ");
     scanf("%d", &key);

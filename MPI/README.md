@@ -1,6 +1,6 @@
 # Integrantes
 * Luis Andres Gonzalez Corzo - 2201493
-* Darien
+* Darien Andres Castañeda Agudelo - 2201922
 
 ## Binary Search
 Este código presenta dos funciones principales: bubble_sort y binary_search. La primera ordena una lista de números utilizando el algoritmo de ordenamiento de burbuja. Este algoritmo recorre la lista varias veces, comparando elementos adyacentes y realizando intercambios si están desordenados. Este proceso continúa hasta que no se necesiten más intercambios, lo que indica que la lista está ordenada de manera ascendente.
@@ -12,3 +12,10 @@ Para ejecutar el algoritmo pedimos una reserva interactiva:
 ```
 srun -n 4 --pty /bin/bash
 ```
+Luego cargamos el modulo de MPI:
+```
+module load devtools/mpi/openmpi/4.1.2 
+```
+* Compilamos el codigo usando: ```mpic++ -fopenmp MPI_BinarySearch.c -o X_MPI_BinarySearch```
+* Lo ejecutamos usando: ```mpirun -np 4 ./X_MPI_BinarySearch```
+
