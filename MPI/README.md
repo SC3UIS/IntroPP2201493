@@ -17,5 +17,11 @@ Luego cargamos el modulo de MPI:
 module load devtools/mpi/openmpi/4.1.2 
 ```
 * Compilamos el codigo usando: ```mpic++ -fopenmp MPI_BinarySearch.c -o X_MPI_BinarySearch```
+Aqui despues de -fopenmp agregamos respectivas etiquetas de compilacion, se usaron -O, -O1 y -O3
 * Lo ejecutamos usando: ```mpirun -np 4 ./X_MPI_BinarySearch```
-
+### Tiempos con la etiqueta O:
+![O0](/MPI/imagenes/BO.png)
+### Tiempos con la etiqueta O1:
+![O1](/MPI/imagenes/BO1.png)
+### Tiempos con la etiqueta O3:
+![O3](/MPI/imagenes/BO3.png)
