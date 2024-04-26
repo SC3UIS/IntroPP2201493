@@ -1,0 +1,14 @@
+# Integrantes
+* Luis Andres Gonzalez Corzo - 2201493
+* Darien
+
+## Binary Search
+Este código presenta dos funciones principales: bubble_sort y binary_search. La primera ordena una lista de números utilizando el algoritmo de ordenamiento de burbuja. Este algoritmo recorre la lista varias veces, comparando elementos adyacentes y realizando intercambios si están desordenados. Este proceso continúa hasta que no se necesiten más intercambios, lo que indica que la lista está ordenada de manera ascendente.
+
+Por otro lado, binary_search busca un valor específico en una lista ordenada utilizando el algoritmo de búsqueda binaria. Este algoritmo divide repetidamente la lista por la mitad y compara el valor buscado con el elemento en el medio. Si el valor buscado es igual al elemento medio, se devuelve como encontrado. Si es menor, la búsqueda se realiza en la mitad inferior de la lista; si es mayor, en la mitad superior. Este proceso se repite hasta que se encuentra el valor buscado o hasta que la lista se reduce a cero, indicando que el valor no está presente en la lista.
+
+Para ejecutar el algoritmo pedimos una reserva interactiva:
+
+```
+srun -n 4 --pty /bin/bash
+```
