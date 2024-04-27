@@ -1,128 +1,134 @@
+#include <mpi.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <mpi.h>
+#include <time.h>
 
-void arrangeItems(int [], int [], int, int);
-int len;
+// Function declaration
+void arrange(int, int);
+int generateRandom();
 
-int main(int argc, char *argv[]){
-    setenv("OMPI_MCA_btl", "^openib", 1);
-    setenv("OMPI_MCA_orte_base_help_aggregate", "0", 1);
-    int rank, size, start_time, end_time, total_time;
-    int i, j, c, t, k, n, max, maxd=0, temp;
+// Global variables
+int array[100000], array1[100000];
+int i, j, temp, max, count = 100000, maxdigits = 0, c = 0;
+double start, end;
 
-    MPI_Init(&argc, &argv);
-    MPI_Comm_rank(MPI_COMM_WORLD, &rank);
-    MPI_Comm_size(MPI_COMM_WORLD, &size);
+int main(int argc, char** argv) {
+    // MPI Starts
+    MPI_Init(NULL, NULL);
 
-    // Size of the array to sort...
-    len = 100000;
+    // Get the total number of processes
+    int world_size;
+    MPI_Comm_size(MPI_COMM_WORLD, &world_size);
 
-    MPI_Bcast(&len, 1, MPI_INT, 0, MPI_COMM_WORLD);
+    // Get the range of the current process
+    int world_rank;
+    MPI_Comm_rank(MPI_COMM_WORLD, &world_rank);
 
-    int *arr = (int *)malloc(len * sizeof(int));
-    int *arr1 = (int *)malloc(len * sizeof(int));
+    int t1, t2, k, t, n = 1;
 
-    srand(rank); // Seed rand() with process rank for different random values
+    // Process 0 receives user input.
+    if (world_rank == 0) {
+        start = MPI_Wtime(); 
 
-    // Automatically fill the array with random values
-    for (i = 0; i < len; i++) {
-        arr[i] = rand() % 100; // Generate a random number between 0 and 99
+        // Generate random numbers and store them in array1 and array2.
+        srand(time(NULL)); // Initialize the seed of the random number generator.
+        for (i = 0; i < 100000; i++) {
+            array1[i] = generateRandom();
+            array[i] = array1[i];
+        }
     }
 
-    printf("Process %d - Unsorted Array:\n", rank);
-    //for (i = 0; i < len; i++)
-        //printf("%d ", arr[i]);
-    printf("\n");
+    // The data is sent to all processes.
+    MPI_Bcast(&count, 1, MPI_INT, 0, MPI_COMM_WORLD);
+    MPI_Bcast(array, count, MPI_INT, 0, MPI_COMM_WORLD);
+    MPI_Bcast(array1, count, MPI_INT, 0, MPI_COMM_WORLD);
 
-    MPI_Barrier(MPI_COMM_WORLD);
-
-    start_time = MPI_Wtime();
-
-    int local_len = len / size;
-    int *local_arr = (int *)malloc(local_len * sizeof(int));
-
-    MPI_Scatter(arr, local_len, MPI_INT, local_arr, local_len, MPI_INT, 0, MPI_COMM_WORLD);
-
-    // Sort local array
-    for (i = 0; i < local_len; i++) {
-        t = local_arr[i];
-        c = 0;
-        while (t > 0) {
+    // Calculate the maximum number of digits in the numbers of the array.
+    for (i = 0; i < count; i++){
+        t = array[i];
+        while(t > 0){
             c++;
             t = t / 10;
         }
-        if (maxd < c)
-            maxd = c;
+        if (maxdigits < c)
+            maxdigits = c;
         c = 0;
     }
-    while (--maxd)
+    while (--maxdigits)
         n = n * 10;
 
-    for (i = 0; i < local_len; i++) {
-        max = local_arr[i] / n;
-        t = i;
+    // Each process sorts its portion of the array.
+    int chunk_size = count / world_size;
+    int start_index = world_rank * chunk_size;
+    int end_index = (world_rank == world_size - 1) ? count : (world_rank + 1) * chunk_size;
 
-        for (j = i + 1; j < local_len; j++) {
-            if (max > (local_arr[j] / n)) {
-                max = local_arr[j] / n;
+    // Sort the numbers using the Postman sort algorithm.
+    for (i = start_index; i < end_index; i++){
+        max = array[i] / n;
+        t = i;
+        for (j = i + 1; j < count; j++){
+            if (max > (array[j] / n)){
+                max = array[j] / n;
                 t = j;
             }
         }
-
-        temp = local_arr[t];
-        local_arr[t] = local_arr[i];
-        local_arr[i] = temp;
+        temp = array1[t];
+        array1[t] = array1[i];
+        array1[i] = temp;
+        temp = array[t];
+        array[t] = array[i];
+        array[i] = temp;
     }
-    while (n >= 1) {
-        for (i = 0; i < local_len;) {
-            t = local_arr[i] / n;
-            for (j = i + 1; t == (local_arr[j] / n); j++);
-                arrangeItems(local_arr, local_arr, i, j);
+
+    // Synchronize to ensure that all processes have completed the sorting phase.
+    MPI_Barrier(MPI_COMM_WORLD);
+
+    // Each process sorts its part of the array using the same base.
+    while (n >= 1){
+        for (i = start_index; i < end_index;){
+            t1 = array[i] / n;
+            for (j = i + 1; t1 == (array[j] / n); j++);
+            arrange(i, j);
             i = j;
         }
         n = n / 10;
+
+        // Synchronize to ensure that all processes have completed this sorting phase.
+        MPI_Barrier(MPI_COMM_WORLD);
     }
 
-    MPI_Gather(local_arr, local_len, MPI_INT, arr1, local_len, MPI_INT, 0, MPI_COMM_WORLD);
+    // Merge the results from all processes.
+    MPI_Gather(array1 + start_index, chunk_size, MPI_INT, array1, chunk_size, MPI_INT, 0, MPI_COMM_WORLD);
 
-    if (rank == 0) {
-        // Final sorting
-        arrangeItems(arr, arr1, 0, len);
-
-        printf("Sorted Array:\n");
-        //for (i = 0; i < len; i++)
-            //printf("%d ", arr1[i]);
-        printf("\n");
+    if (world_rank == 0) {
+        arrange(0, count);
+        end = MPI_Wtime();
+        printf("Work took %f seconds\n", end - start);
     }
-    end_time = MPI_Wtime();
-    total_time = end_time - start_time; 
-    printf("%f", total_time);
 
-    free(arr);
-    free(arr1);
-    free(local_arr);
-
+    // MPI Ends
     MPI_Finalize();
 
     return 0;
 }
-void arrangeItems(int arr[], int arr1[], int k, int n){
-    int temp = 0;
-    int i = 0;
-    int j = 0;
 
-    for (i = k; i < n - 1 && i < len; i++) {
-        for (j = i + 1; j < n && j < len; j++) {
-            if (arr1[i] > arr1[j]) {
-                temp = arr1[i];
-                arr1[i] = arr1[j];
-                arr1[j] = temp;
-
-                temp = (arr[i] % 10);
-                arr[i] = (arr[j] % 10);
-                arr[j] = temp;
+/* Function to arrange the of sequence having same base */
+void arrange(int k,int n){
+    for (i = k; i < n - 1; i++){
+        for (j = i + 1; j < n; j++){
+            if (array1[i] > array1[j]){
+                temp = array1[i];
+                array1[i] = array1[j];
+                array1[j] = temp;
+                temp = (array[i] % 10);
+                array[i] = (array[j] % 10);
+                array[j] = temp;
             }
         }
     }
+}
+
+// Generate a random number between 1 and 100000.
+int generateRandom() {
+    return rand() % 100000 + 1;
 }

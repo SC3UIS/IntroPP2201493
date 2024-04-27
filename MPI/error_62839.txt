@@ -1,0 +1,63 @@
+Removing compiler version 2021.4.0
+Use `module list` to view any remaining dependent modules.
+Removing icc version 2021.4.0
+Use `module list` to view any remaining dependent modules.
+Removing mkl version 2021.4.0
+Use `module list` to view any remaining dependent modules.
+Removing tbb version 2021.4.0
+Use `module list` to view any remaining dependent modules.
+Removing compiler-rt version 2021.4.0
+Use `module list` to view any remaining dependent modules.
+Removing debugger version 10.2.4
+Use `module list` to view any remaining dependent modules.
+Removing dpl version 2021.5.0
+Use `module list` to view any remaining dependent modules.
+Removing init_opencl version 2021.4.0
+Use `module list` to view any remaining dependent modules.
+Removing oclfpga version 2021.4.0
+Use `module list` to view any remaining dependent modules.
+Loading compiler version 2021.4.0
+Loading tbb version 2021.4.0
+Loading compiler-rt version 2021.4.0
+Loading debugger version 10.2.4
+Loading dpl version 2021.5.0
+Loading oclfpga version 2021.4.0
+Loading init_opencl version 2021.4.0
+Loading icc version 2021.4.0
+Loading mkl version 2021.4.0
+--------------------------------------------------------------------------
+By default, for Open MPI 4.0 and later, infiniband ports on a device
+are not used by default.  The intent is to use UCX for these devices.
+You can override this policy by setting the btl_openib_allow_ib MCA parameter
+to true.
+
+  Local host:              guane10
+  Local adapter:           mlx4_0
+  Local port:              1
+
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
+WARNING: There was an error initializing an OpenFabrics device.
+
+  Local host:   guane10
+  Local device: mlx4_0
+--------------------------------------------------------------------------
+[guane10.uis.edu.co:04879] 3 more processes have sent help message help-mpi-btl-openib.txt / ib port not selected
+[guane10.uis.edu.co:04879] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
+[guane10.uis.edu.co:04879] 3 more processes have sent help message help-mpi-btl-openib.txt / error in device init
+[guane10:04886] *** Process received signal ***
+[guane10:04886] Signal: Segmentation fault (11)
+[guane10:04886] Signal code: Address not mapped (1)
+[guane10:04886] Failing at address: 0x6f7000
+[guane10:04886] [ 0] /usr/lib64/libpthread.so.0(+0xf630)[0x7f8c192b5630]
+[guane10:04886] [ 1] ./X_MPI_PostmanSortO[0x409e22]
+[guane10:04886] [ 2] /usr/lib64/libc.so.6(__libc_start_main+0xf5)[0x7f8c18efa555]
+[guane10:04886] [ 3] ./X_MPI_PostmanSortO[0x4098e9]
+[guane10:04886] *** End of error message ***
+--------------------------------------------------------------------------
+Primary job  terminated normally, but 1 process returned
+a non-zero exit code. Per user-direction, the job has been aborted.
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
+mpirun noticed that process rank 3 with PID 4886 on node guane10 exited on signal 11 (Segmentation fault).
+--------------------------------------------------------------------------

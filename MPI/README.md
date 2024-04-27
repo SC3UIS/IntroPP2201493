@@ -25,3 +25,33 @@ Aqui despues de -fopenmp agregamos respectivas etiquetas de compilacion, se usar
 ![O1](/MPI/imagenes/BO1.png)
 ### Tiempos con la etiqueta O3:
 ![O3](/MPI/imagenes/BO3.png)
+
+Como se puede ver hay una perdida de rendimiento utilizando la etiqueta O1 en cuanto ordenamiento de la lista, respecto a la etiqueta O y una mejoria de rendimiento usando la etiqueta O3 llegando a reducir el tiempo a la mitad aproximadamente.
+
+## Postman Sort
+Para paralelizar este algoritmo con MPI, el proceso raíz inicializa el array y comienza la primera etapa del algoritmo, que consiste en un ordenamiento basado en el número de dígitos. Posteriormente, se difunden las variables necesarias para el algoritmo, como la longitud del array (n), a través de un broadcast.
+
+Una vez que todas las variables necesarias están disponibles para todos los procesos, es necesario asignar una parte equitativa del array entre el número de procesos. Esto se logra utilizando la función `MPI_Scatter`, que distribuye eficientemente el array entre los procesos disponibles. Cada worker ejecuta la segunda etapa del algoritmo, que implica ordenar su parte del array. Una vez que cada worker ha completado esta tarea, se recolectan los subarrays ordenados utilizando `MPI_Gather`, permitiendo que el proceso raíz obtenga el array completo y ordenado.
+
+Finalmente, para calcular el tiempo total de ejecución del algoritmo, se registra el tiempo del worker que ha tardado más en ordenar su parte del array. Este tiempo se utiliza como referencia para determinar el tiempo total de ejecución del algoritmo.
+
+Para ejecutar el algoritmo pedimos una reserva interactiva:
+
+```
+srun -n 4 --pty /bin/bash
+```
+Luego cargamos el modulo de MPI:
+```
+module load devtools/mpi/openmpi/4.1.2 
+```
+* Compilamos el codigo usando: ```mpic++ -fopenmp MPI_PostmanSort.c -o X_MPI_PostmanSort```
+Aqui despues de -fopenmp agregamos respectivas etiquetas de compilacion, se usaron -O, -O1 y -O3
+* Lo ejecutamos usando: ```mpirun -np 4 ./X_MPI_PostmanSort```
+### Tiempos con la etiqueta O:
+![O0](/MPI/imagenes/PO.png)
+### Tiempos con la etiqueta O1:
+![O1](/MPI/imagenes/PO1.png)
+### Tiempos con la etiqueta O3:
+![O3](/MPI/imagenes/PO3.png)
+
+El codigo con la etiqueta O3 tuvo problemas a la hora de ejecutarse, mas sin embargo funciono la etiquera O y O1, siendo O1 la que mejor rendimiento tiene solo requiriendo la mitad del tiempo para ser ejecutada.
