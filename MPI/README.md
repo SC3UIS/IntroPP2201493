@@ -54,4 +54,4 @@ Aqui despues de -fopenmp agregamos respectivas etiquetas de compilacion, se usar
 ### Tiempos con la etiqueta O3:
 ![O3](/MPI/imagenes/PO3.png)
 
-El codigo con la etiqueta O3 tuvo problemas a la hora de ejecutarse, mas sin embargo funciono la etiquera O y O1, siendo O1 la que mejor rendimiento tiene solo requiriendo la mitad del tiempo para ser ejecutada.
+El codigo con la etiqueta O3 tuvo problemas a la hora de ejecutarse, mas sin embargo funciono la etiqueta O y O1, siendo O1 la que mejor rendimiento tiene solo requiriendo la mitad del tiempo para ser ejecutada.
